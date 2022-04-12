@@ -61,9 +61,11 @@ async def wordle_get():
 	</br>
 	<input type="submit" value="Guess">
 </form>
-<br>
 <form action="/wordle_reset/" method="post">
 	<input type="submit" value="New game">
+</form>
+<form action="/wordle_help/" method="get">
+	<input type="submit" value="Help">
 </form>
 </body>
 """ % (guesses_html)	
@@ -87,3 +89,17 @@ async def wordle_reset():
 	answer = random.choice(Wordler.word_list)
 	app.wordler.set_answer(answer)
 	return RedirectResponse('/wordle/', status_code=status.HTTP_302_FOUND)
+
+@app.get("/wordle_help/")
+async def wordle_help_get():
+	content = """
+Wordle game:</br></br>
+Guess the word!</br></br>
+<font color="green" size="+3">G</font>reen letter is in the correct place.</br>
+<font color="orange" size="+3">O</font>range letter is in the wrong place, but exists in the word.</br>
+<font color="black" size="+3">B</font>lack letter is not in the answer.</br>
+<font color="green" size="+3"><u>Underscored</u></font> word is the correct answer.</br>
+</br>
+<a href="/wordle/">Back to game</a>
+	"""
+	return HTMLResponse(content=content)
