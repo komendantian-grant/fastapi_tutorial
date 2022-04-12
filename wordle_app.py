@@ -61,6 +61,10 @@ async def wordle_get():
 	</br>
 	<input type="submit" value="Guess">
 </form>
+<br>
+<form action="/wordle_reset/" method="post">
+	<input type="submit" value="New game">
+</form>
 </body>
 """ % (guesses_html)	
 	return HTMLResponse(content=content)
@@ -75,4 +79,11 @@ async def wordle_get(guess: str = Form("")):
 			guess = guess[0:n]
 		app.wordler.add_guess(guess.upper())
 	
+	return RedirectResponse('/wordle/', status_code=status.HTTP_302_FOUND)
+
+@app.post("/wordle_reset/")
+async def wordle_reset():
+	app.wordler = Wordler()
+	answer = random.choice(Wordler.word_list)
+	app.wordler.set_answer(answer)
 	return RedirectResponse('/wordle/', status_code=status.HTTP_302_FOUND)
