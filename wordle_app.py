@@ -53,6 +53,7 @@ async def wordle_get():
 		guesses_html += "</br>"
 	content = """
 <body>
+<h1>Wordle game:</h1>
 <font size="+3">
 %s
 </font>
