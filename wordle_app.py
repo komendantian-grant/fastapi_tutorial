@@ -71,7 +71,7 @@ async def wordle_get():
 
 
 @app.post("/wordle/")
-async def wordle_get(guess: str = Form("")):
+async def wordle_post(guess: str = Form("")):
 	
 	if guess:
 		n = len(app.wordler.get_answer())
